@@ -15,7 +15,15 @@ class CreateInteractionsTable extends Migration
     {
         Schema::create('interactions', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('demand_id');
+            $table->bigInteger('user_id');
+            $table->string('description', 40);
+            $table->datetime('datetime_interaction');
             $table->timestamps();
+            
+            // FK's
+            $table->foreign('demand_id')->references('id')->on('demands');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -14,14 +14,17 @@ class CreateDemandsTable extends Migration
     public function up()
     {
         Schema::create('demands', function (Blueprint $table) {
-            $table->id();
-            $table->string('titulo', 30);
-            $table->text('descricao');
-            $table->datetime('data_hora_abertura');
-            $table->datetime('data_hora_fechamento');
+            $table->id(); // Number
+            $table->string('title', 40);
+            $table->text('description');
+            $table->datetime('datetime_open');
+            $table->datetime('datetime_end');
             $table->bigInteger('user_id');
             $table->smallInteger('status');
             $table->timestamps();
+
+            // FK
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
