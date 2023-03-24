@@ -18,7 +18,7 @@ class CreateInteractionsTable extends Migration
             $table->bigInteger('demand_id');
             $table->bigInteger('user_id');
             $table->string('description', 40);
-            $table->datetime('datetime_interaction');
+            $table->datetime('datetime_interaction')->useCurrent();
             $table->timestamps();
             
             // FK's

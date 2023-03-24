@@ -16,11 +16,11 @@ class CreateDemandsTable extends Migration
         Schema::create('demands', function (Blueprint $table) {
             $table->id(); // Number
             $table->string('title', 40);
-            $table->text('description');
-            $table->datetime('datetime_open');
-            $table->datetime('datetime_end');
+            $table->text('description')->nullable();
+            $table->datetime('datetime_open')->useCurrent();
+            $table->datetime('datetime_end')->nullable();
             $table->bigInteger('user_id');
-            $table->smallInteger('status');
+            $table->smallInteger('status')->default(0);
             $table->timestamps();
 
             // FK
