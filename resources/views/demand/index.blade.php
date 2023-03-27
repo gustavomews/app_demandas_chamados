@@ -30,38 +30,49 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="table-warning">
-                                    <th scope="row">1</th>
-                                    <td>Demanda 1</td>
-                                    <td>01/01/2022</td>
-                                    <td>ADM</td>
-                                    <td>Pendente</td>
-                                    <td><a href="{{ route('demand.show', ['demand' => '1']) }}">Visualizar</a></td>
-                                </tr>
-                                <tr class="table-info">
-                                    <th scope="row">2</th>
-                                    <td>Demanda 2</td>
-                                    <td>01/01/2022</td>
-                                    <td>ADM</td>
-                                    <td>Andamento</td>
-                                    <td><a href="">Visualizar</a></td>
-                                </tr>
-                                <tr class="table-success">
-                                    <th scope="row">3</th>
-                                    <td>Demanda 3</td>
-                                    <td>01/01/2022</td>
-                                    <td>ADM</td>
-                                    <td>Concluído</td>
-                                    <td><a href="">Visualizar</a></td>
-                                </tr>
-                                <tr class="table-danger">
-                                    <th scope="row">4</th>
-                                    <td>Demanda 4</td>
-                                    <td>01/01/2022</td>
-                                    <td>ADM</td>
-                                    <td>Cancelado</td>
-                                    <td><a href="">Visualizar</a></td>
-                                </tr>
+                                @foreach ($demands as $demand)
+                                    <tr class="table-warning">
+                                        <th scope="row">{{ $demand->id }} </th>
+                                        <td>{{ $demand->title }}</td>
+                                        <td>{{ date('d/m/Y H:i:s', strtotime($demand->datetime_open)) }}</td>
+                                        <td>{{ $demand->user_id }}</td>
+                                        <td>{{ $demand->status }}</td>
+                                        <td><a href="{{ route('demand.show', ['demand' => $demand->id ]) }}">Visualizar</a></td>
+                                    </tr>
+                                @endforeach
+
+                                <!--<tr class="table-warning">
+                                            <th scope="row">1</th>
+                                            <td>Demanda 1</td>
+                                            <td>01/01/2022</td>
+                                            <td>ADM</td>
+                                            <td>Pendente</td>
+                                            <td><a href="{{ route('demand.show', ['demand' => '1']) }}">Visualizar</a></td>
+                                        </tr>
+                                        <tr class="table-info">
+                                            <th scope="row">2</th>
+                                            <td>Demanda 2</td>
+                                            <td>01/01/2022</td>
+                                            <td>ADM</td>
+                                            <td>Andamento</td>
+                                            <td><a href="">Visualizar</a></td>
+                                        </tr>
+                                        <tr class="table-success">
+                                            <th scope="row">3</th>
+                                            <td>Demanda 3</td>
+                                            <td>01/01/2022</td>
+                                            <td>ADM</td>
+                                            <td>Concluído</td>
+                                            <td><a href="">Visualizar</a></td>
+                                        </tr>
+                                        <tr class="table-danger">
+                                            <th scope="row">4</th>
+                                            <td>Demanda 4</td>
+                                            <td>01/01/2022</td>
+                                            <td>ADM</td>
+                                            <td>Cancelado</td>
+                                            <td><a href="">Visualizar</a></td>
+                                        </tr>-->
                             </tbody>
                         </table>
                     </div>

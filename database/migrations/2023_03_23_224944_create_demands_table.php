@@ -20,7 +20,7 @@ class CreateDemandsTable extends Migration
             $table->datetime('datetime_open')->useCurrent();
             $table->datetime('datetime_end')->nullable();
             $table->bigInteger('user_id');
-            $table->smallInteger('status')->default(0);
+            $table->smallInteger('status_id')->default(0);
             $table->timestamps();
 
             // FK

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Demand;
 use Illuminate\Http\Request;
 
 class DemandController extends Controller
@@ -14,7 +15,8 @@ class DemandController extends Controller
     public function index()
     {
         //
-        return view('demand.index');
+        $demands = Demand::all();
+        return view('demand.index', ['demands' => $demands]);
     }
 
     /**
