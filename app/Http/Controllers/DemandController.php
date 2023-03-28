@@ -24,7 +24,7 @@ class DemandController extends Controller
     public function index()
     {
         //
-        $demands = Demand::with(['user', 'status'])->orderBy('status_id')->orderBy('id')->get();
+        $demands = Demand::with(['user', 'status'])->orderBy('status_id')->orderBy('id')->paginate(10);
         return view('demand.index', ['demands' => $demands]);
     }
 
