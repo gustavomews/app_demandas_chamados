@@ -53,7 +53,9 @@
                         </h6>
 
                         <p class="card-text">
-                            <b>Descrição:</b> {{ $demand->description }}
+                            @if ($demand->description)
+                                <b>Descrição:</b> {{ $demand->description }}
+                            @endif
                         </p>
                     </div>
                 </div>

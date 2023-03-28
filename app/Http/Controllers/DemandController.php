@@ -17,7 +17,7 @@ class DemandController extends Controller
     //
     public function __construct()
     {
-        //$this->middleware('auth'); -> Transferido para a rota
+        //$this->middleware('auth'); -> Defined in routes
     }
 
 
@@ -89,6 +89,10 @@ class DemandController extends Controller
     {
         //
         $demand = Demand::find($id);
+        if(!isset($demand->id)) {
+            return view('denied');
+        }
+
         $interactions = Interaction::where('demand_id', $id)->get();
         return view('demand.show', ['demand' => $demand, 'interactions' => $interactions]);
     }
@@ -96,24 +100,59 @@ class DemandController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Demand $demand
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Demand $demand)
     {
         //
+        if ($demand->status_id != 1) {
+            return view('denied');
+        }
+
+        return view('demand.edit', ['demand' => $demand]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Demand $demand
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Demand $demand)
     {
         //
+        if ($demand->status_id != 1) {
+            return view('denied');
+        }
+
+        // ---------------------------------------------------------------------- Validate
+        $regras = [
+            'title' => 'required|min:5|max:40',
+            'description' => 'max:2000'
+        ];
+
+        $feedback = [
+            'required' => 'O preenchimento é obrigatório!',
+            'title.min' => 'O título deve possuir no mínimo 5 caracteres!',
+            'title.max' => 'O título deve possuir no máximo 40 caracteres!',
+            'description.max' => 'A descrição deve possuir no maximo 2000 caracteres!',
+        ];
+
+        $request->validate($regras, $feedback);
+
+        // ---------------------------------------------------------------------- Update demand
+        $demand->update($request->all());
+
+        // ---------------------------------------------------------------------- Create interaction
+        $interaction['demand_id'] = $demand->id;
+        $interaction['user_id'] = auth()->user()->id;
+        $interaction['description'] = 'Demanda editada';
+        Interaction::create($interaction);
+        
+        // ---------------------------------------------------------------------- Return view
+        return redirect()->route('demand.show', ['demand' => $demand->id]);
     }
 
     /**
@@ -126,6 +165,12 @@ class DemandController extends Controller
     {
         // ---------------------------------------------------------------------- Open demand
         $demand = Demand::find($id);
+
+        // Validate status pending
+        if ($demand->status_id != 1) {
+            return view('denied');
+        }
+
         $demand->status_id = 2;
         $demand->save();
 
@@ -149,7 +194,13 @@ class DemandController extends Controller
     {
         // ---------------------------------------------------------------------- Open demand
         $demand = Demand::find($id);
+        // Validate status in progress
+        if ($demand->status_id != 2) {
+            return view('denied');
+        }
+
         $demand->status_id = 3;
+        $demand->datetime_end = date('Y-m-d H:i:s');
         $demand->save();
 
         // ---------------------------------------------------------------------- Create interaction
@@ -172,7 +223,13 @@ class DemandController extends Controller
     {
         // ---------------------------------------------------------------------- Open demand
         $demand = Demand::find($id);
+        // Validate status in progress
+        if ($demand->status_id != 2) {
+            return view('denied');
+        }
+
         $demand->status_id = 4;
+        $demand->datetime_end = date('Y-m-d H:i:s');
         $demand->save();
 
         // ---------------------------------------------------------------------- Create interaction
