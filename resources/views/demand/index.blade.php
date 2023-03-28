@@ -8,11 +8,12 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-6">
-                                Listagem de Demandas/Chamados
+                                Lista de Demandas
                             </div>
                             <div class="col-6">
                                 <div class="float-right">
-                                    <a href="{{ route('demand.create') }}" class="mr-3">+ Nova demanda</a>
+                                    <a href="{{ route('demand.create') }}"><button type="button"
+                                            class="btn btn-primary">Nova demanda</button></a>
                                 </div>
                             </div>
                         </div>
@@ -30,49 +31,36 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($demands as $demand)
-                                    <tr class="table-warning">
-                                        <th scope="row">{{ $demand->id }} </th>
-                                        <td>{{ $demand->title }}</td>
-                                        <td>{{ date('d/m/Y H:i:s', strtotime($demand->datetime_open)) }}</td>
-                                        <td>{{ $demand->user_id }}</td>
-                                        <td>{{ $demand->status }}</td>
-                                        <td><a href="{{ route('demand.show', ['demand' => $demand->id ]) }}">Visualizar</a></td>
+                                @if (count($demands) == 0)
+                                    <tr>
+                                        <td colspan="6" class="text-center">Nenhuma demanda cadastrada!</td>
                                     </tr>
-                                @endforeach
-
-                                <!--<tr class="table-warning">
-                                            <th scope="row">1</th>
-                                            <td>Demanda 1</td>
-                                            <td>01/01/2022</td>
-                                            <td>ADM</td>
-                                            <td>Pendente</td>
-                                            <td><a href="{{ route('demand.show', ['demand' => '1']) }}">Visualizar</a></td>
+                                @else
+                                    @foreach ($demands as $demand)
+                                        <tr class="table-{{ $demand->status->codename }}">
+                                            <th class="align-middle" scope="row">{{ $demand->id }} </th>
+                                            <td class="align-middle">{{ $demand->title }}</td>
+                                            <td class="align-middle">
+                                                {{ date('d/m/Y H:i:s', strtotime($demand->datetime_open)) }}
+                                            </td>
+                                            <td class="align-middle">{{ $demand->user->name }}</td>
+                                            <td class="align-bottom">
+                                                <h5>
+                                                    <span class="badge bg-{{ $demand->status->codename }}">
+                                                        {{ $demand->status->title }}
+                                                    </span>
+                                                </h5>
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="{{ route('demand.show', ['demand' => $demand->id]) }}">
+                                                    <button type="button" class="btn btn-{{ $demand->status->codename }}">
+                                                        Visualizar
+                                                    </button>
+                                                </a>
+                                            </td>
                                         </tr>
-                                        <tr class="table-info">
-                                            <th scope="row">2</th>
-                                            <td>Demanda 2</td>
-                                            <td>01/01/2022</td>
-                                            <td>ADM</td>
-                                            <td>Andamento</td>
-                                            <td><a href="">Visualizar</a></td>
-                                        </tr>
-                                        <tr class="table-success">
-                                            <th scope="row">3</th>
-                                            <td>Demanda 3</td>
-                                            <td>01/01/2022</td>
-                                            <td>ADM</td>
-                                            <td>Concluído</td>
-                                            <td><a href="">Visualizar</a></td>
-                                        </tr>
-                                        <tr class="table-danger">
-                                            <th scope="row">4</th>
-                                            <td>Demanda 4</td>
-                                            <td>01/01/2022</td>
-                                            <td>ADM</td>
-                                            <td>Cancelado</td>
-                                            <td><a href="">Visualizar</a></td>
-                                        </tr>-->
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

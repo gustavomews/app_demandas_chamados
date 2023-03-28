@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Demand extends Model
 {
@@ -12,8 +13,29 @@ class Demand extends Model
     protected $fillable = ['title', 'description', 'datetime_open', 'datetime_end', 'user_id', 'status'];
 
     // Status
-    // 0 - Pendente
-    // 1 - Em andamento
-    // 2 - Concluído
+    // 1 - Pendente
+    // 2 - Em andamento
+    // 3 - Concluído
     // 4 - Cancelado
+
+    public function user()
+    {
+        // BelongsTo > Pertence à
+
+        return $this->BelongsTo('App\Models\User');
+    }
+
+    public function status()
+    {
+        // BelongsTo > Pertence à
+
+        return $this->BelongsTo('App\Models\StatusDemand');
+    }
+
+    public function interactions()
+    {
+        // hasMany > Tem muitos
+
+        return $this->hasMany('App\Models\Interaction');
+    }
 }
