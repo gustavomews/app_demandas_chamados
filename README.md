@@ -42,3 +42,15 @@ Caso não tenha concluído todos os cursos, poderá fazer este projeto em etapas
 Laravel Framework 8.83.27
 PHP 7.4.33
 PostgreSQL 15.1
+
+### Processos para rodar o sistema
+- git clone https://github.com/gustavomews/app_demandas_chamados.git
+- cd app_demandas_chamados
+- composer update
+- criar base de dados no postgres com o nome demandas_chamados
+- verificar se conexão com o banco ficou igual a do .env disponibilizado no git hub
+- php artisan migrate
+- php artisan db:seed --class=StatusDemandSeeder
+
+- Registrar-se no sistema
+- Criar e controlar demandas
