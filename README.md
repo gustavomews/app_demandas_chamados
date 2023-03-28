@@ -35,3 +35,10 @@ Para o desenvolvimento desta aplicação deverá ser utilizado todos os conceito
 
 ### Importante
 Caso não tenha concluído todos os cursos, poderá fazer este projeto em etapas. Por exemplo, se concluiu o curso de HTML, CSS, e JS, mas não fez concluiu o de PHP e Banco de dados. Crie o projeto da tela, com dados fictícios aplicando os conceitos estudados.
+
+
+
+### Versões
+Laravel Framework 8.83.27
+PHP 7.4.33
+PostgreSQL 15.1
